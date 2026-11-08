@@ -98,7 +98,7 @@ grep -E "obs-nvenc|NVENC" ~/.config/obs-studio/logs/$(ls -t ~/.config/obs-studio
 ## 注意事项
 
 - **OBS 日志里的 `Not running on NVIDIA GPU, falling back to non-texture encoder` 是正常现象**：OBS 用核显渲染（PRIME offload），NVENC 走 CUDA 拷贝路径，依然是硬件编码，只是多一次显存拷贝。想让编码走零拷贝纹理路径，可让 OBS 在 NVIDIA 上渲染（`__NV_PRIME_RENDER_OFFLOAD=1`）。
-- **本项目只修 OBS**。系统里的 ffmpeg 9 `h264_nvenc` 仍然是坏的（影响 GPU Screen Recorder、部分转码工具），修法不同（需要给 ffmpeg 打 runtime API version 补丁），不在本项目范围内。
+- **本项目只修 OBS**。系统 ffmpeg 的 `h264_nvenc` 需要另一套修法（运行时 API 版本协商补丁），已完成并开源：[ffmpeg-nvenc-legacy](https://github.com/Eefung/ffmpeg-nvenc-legacy)。装上后 Kdenlive/MLT、GPU Screen Recorder、mpv 等也一并恢复硬件编码。
 - 逆操作：`./uninstall.sh`；若备份丢了，`pacman -S obs-studio` 重装包即可还原。
 - 这是给「厂商已停止支持的老卡」补齐最后一环的权宜方案，不是上游认可的分发方式；在 OBS 35（预计 Pascal 支持彻底移除）上可能不再适用。
 
