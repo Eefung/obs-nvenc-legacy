@@ -1,0 +1,13 @@
+# 构建缓存与产物
+build/
+build-*/
+*.o
+*.so
+!files/*.so
+obs-nvenc-test
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+*.swp
+.DS_Store

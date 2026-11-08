@@ -1,0 +1,38 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 shellcheck
+        run: sudo apt-get update -qq && sudo apt-get install -y shellcheck
+
+      - name: 检查所有 shell 脚本
+        run: |
+          fail=0
+          for f in build.sh uninstall.sh files/reinstall.sh; do
+            echo "::group::$f"
+            shellcheck -S warning "$f" || fail=1
+            echo "::endgroup::"
+          done
+          exit $fail
+
+  syntax:
+    name: bash -n
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          bash -n build.sh
+          bash -n uninstall.sh
+          sh -n files/reinstall.sh
+          echo "syntax OK"
