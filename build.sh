@@ -53,6 +53,7 @@ obs-nvenc-legacy $VERSION — 让 OBS 在老 NVIDIA 显卡上重新用上 NVENC
   --no-install          只编译, 不安装
   --no-hook             不安装 pacman 钩子 (OBS 升级后需要手动重跑)
   --force               即使当前 NVENC 已可用 / 已有构建也重新编译
+  --rebuild             同 --force, 重新编译安装 (OBS 升级后用)
   -h, --help            显示本帮助
 
 示例:
